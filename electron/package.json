@@ -1,0 +1,85 @@
+{
+  "name": "view-phone-desktop",
+  "version": "1.0.0",
+  "description": "View Phone Desktop - Mobile Screen Viewer",
+  "main": "main.js",
+  "author": "LamLe",
+  "license": "MIT",
+  "scripts": {
+    "start": "run.bat",
+    "start:dev": "run.bat --dev",
+    "build": "electron-builder --win",
+    "build:portable": "electron-builder --win portable",
+    "pack": "electron-builder --dir"
+  },
+  "build": {
+    "appId": "com.viewphone.desktop",
+    "productName": "View Phone",
+    "copyright": "Copyright © 2026 LamLe",
+    "directories": {
+      "output": "../dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js"
+    ],
+    "extraResources": [
+      {
+        "from": "../src/server/dist",
+        "to": "server",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "../src/client/dist",
+        "to": "client",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "../src/server/adb.exe",
+        "to": "server/adb.exe"
+      },
+      {
+        "from": "../src/server/AdbWinApi.dll",
+        "to": "server/AdbWinApi.dll"
+      },
+      {
+        "from": "../src/server/AdbWinUsbApi.dll",
+        "to": "server/AdbWinUsbApi.dll"
+      },
+      {
+        "from": "../docs/Logo.ico",
+        "to": "Logo.ico"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "../docs/Logo.ico",
+      "artifactName": "${productName}-${version}-Setup.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "View Phone"
+    },
+    "forceCodeSigning": false
+  },
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1"
+  }
+}
